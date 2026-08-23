@@ -1,0 +1,52 @@
+MIT License
+
+Copyright (c) 2026 Simar Preet Singh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Third-party components
+
+The MIT licence above covers this application's own source code. It does not
+cover the model weights the app downloads at runtime, or the bundled fonts,
+each of which carries its own terms.
+
+### Bundled fonts (`public/fonts/`)
+
+Inter and Special Elite are both licensed under the SIL Open Font License 1.1,
+which permits bundling and redistribution.
+  - Inter — https://github.com/rsms/inter
+  - Special Elite — https://fonts.google.com/specimen/Special+Elite
+
+### Models downloaded at runtime
+
+These are fetched from Hugging Face directly by the user's browser and are
+never redistributed by this project, but their terms govern that use:
+
+  - Gemma 3 / Gemma 4 (`onnx-community/gemma-*`) — Google's Gemma Terms of Use,
+    which impose use restrictions and a notice-passthrough obligation:
+    https://ai.google.dev/gemma/terms
+  - Qwen2.5 / Qwen3 / Qwen3.5 (`onnx-community/Qwen*`) — Apache-2.0 or the
+    Qwen licence, per the individual model repository.
+  - `Xenova/all-MiniLM-L6-v2` — Apache-2.0.
+  - `SamLowe/roberta-base-go_emotions-onnx` — MIT.
+
+Third-party npm dependency licences are emitted to
+`3rdpartylicenses.txt` in the production build output.
