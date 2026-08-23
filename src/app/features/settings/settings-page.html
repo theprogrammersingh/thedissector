@@ -1,0 +1,128 @@
+<section class="settings-page">
+  <h1>Provider &amp; model</h1>
+  <p class="settings-page__intro">
+    Your key is used only in this browser tab to call the provider directly — it's never sent to us and never stored.
+  </p>
+
+  <label class="settings-page__field">
+    <span>Provider</span>
+    <select (change)="selectProvider($event)">
+      <option value="" [selected]="!settings().providerId">Choose a provider…</option>
+      @for (p of providers; track p.id) {
+        <option [value]="p.id" [selected]="p.id === settings().providerId">{{ p.label }}</option>
+      }
+    </select>
+  </label>
+
+  @if (selectedProvider(); as provider) {
+    @if (provider.id === 'local') {
+      <app-local-model-picker></app-local-model-picker>
+
+      <details class="settings-page__advanced">
+        <summary>Advanced (on-device limits)</summary>
+        <label>
+          Messages to analyze
+          <input
+            type="number"
+            min="100"
+            step="100"
+            [value]="maxMessages()"
+            (change)="onMaxMessagesChange($event)"
+          />
+          <span class="settings-page__hint">
+            On-device runs read the most recent messages only. The limit exists because the
+            forensics passes read every message one at a time — a long chat is slow, not
+            impossible, so raise this if you'd rather wait than lose coverage.
+          </span>
+        </label>
+        <label>
+          Model input budget (tokens)
+          <input
+            type="number"
+            min="200"
+            step="100"
+            [value]="maxInputTokens()"
+            (change)="onMaxInputTokensChange($event)"
+          />
+          <span class="settings-page__hint">
+            How much of the case file gets handed to the model at once. Too high fails outright
+            with an overflow rather than degrading, and the ceiling depends on your GPU — so
+            raise it in steps.
+            @if (lastMeasuredInputTokens(); as measured) {
+              Your last run used <strong>{{ measured | number }}</strong> tokens.
+            }
+          </span>
+        </label>
+      </details>
+    } @else {
+      <label class="settings-page__field">
+        <span>Model</span>
+        <select (change)="selectModel($event)">
+          @for (m of availableModels(); track m.id) {
+            <option [value]="m.id" [selected]="m.id === settings().modelId">{{ m.label }}</option>
+          }
+        </select>
+      </label>
+
+      <app-masked-input
+        label="API key"
+        [placeholder]="'Paste your ' + provider.label + ' API key'"
+        [value]="settings().apiKey"
+        (valueChange)="setApiKey($event)"
+      ></app-masked-input>
+
+      <details class="settings-page__advanced">
+        <summary>Advanced</summary>
+        <label>
+          Temperature
+          <input
+            type="number"
+            min="0"
+            max="2"
+            step="0.1"
+            [value]="settings().temperature"
+            (change)="onTemperatureChange($event)"
+          />
+        </label>
+        <label>
+          Max output tokens
+          <input
+            type="number"
+            min="256"
+            step="256"
+            [value]="settings().maxOutputTokens"
+            (change)="onMaxTokensChange($event)"
+          />
+          <span class="settings-page__hint">
+            Not validated against the model — some models cap output well below their context
+            window, so setting this above what {{ selectedProvider()?.label }} allows for this
+            model will make the analysis call fail rather than get silently clamped.
+          </span>
+        </label>
+      </details>
+
+      <div class="settings-page__test">
+        <app-button
+          variant="secondary"
+          (pressed)="testConnection()"
+          [disabled]="testStatus() === 'testing' || !settings().apiKey"
+        >
+          {{ testStatus() === 'testing' ? 'Testing…' : 'Test connection' }}
+        </app-button>
+        @if (testStatus() === 'success') {
+          <span class="settings-page__test-result settings-page__test-result--ok">Connected.</span>
+        }
+        @if (testStatus() === 'failure') {
+          <span class="settings-page__test-result settings-page__test-result--error">{{ testError() }}</span>
+        }
+      </div>
+    }
+  }
+
+  <div class="settings-page__actions">
+    <app-button variant="ghost" (pressed)="back()">← Back</app-button>
+    <app-button (pressed)="continue()" [disabled]="!hasSettings()">
+      Continue
+    </app-button>
+  </div>
+</section>

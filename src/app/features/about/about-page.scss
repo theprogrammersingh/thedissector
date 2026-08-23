@@ -1,0 +1,65 @@
+.about-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+
+  &__intro {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  &__section {
+    margin-top: var(--space-xl);
+
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+
+  // Privacy and disclaimer copy drops the case-file voice deliberately — the design rule is that
+  // anything the user has to trust is written plainly, never in character.
+  &__plain {
+    font-family: var(--font-body);
+    color: var(--text-primary);
+  }
+
+  &__steps {
+    padding-left: 1.3em;
+
+    li {
+      margin-bottom: var(--space-sm);
+      line-height: 1.5;
+    }
+  }
+
+  &__arch {
+    margin: var(--space-md) 0 0;
+
+    dt {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-accent);
+      margin-top: var(--space-sm);
+    }
+
+    dd {
+      margin: var(--space-xs) 0 0;
+      line-height: 1.5;
+    }
+  }
+
+  &__cta {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-subtle);
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

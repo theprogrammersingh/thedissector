@@ -1,0 +1,72 @@
+<section class="plain-chrome consent-page">
+  <h1>Before we send anything</h1>
+
+  @if (isLocal()) {
+    <p>
+      You're about to analyze this chat with <strong>{{ providerLabel() }}</strong>. It runs entirely on this
+      device — nothing leaves your browser, and there's no API call to anyone.
+    </p>
+  } @else {
+    <p>
+      You're about to send this chat to <strong>{{ providerLabel() }}</strong> for analysis. It goes directly from
+      this browser to their API, using the key you provided — it never touches our servers.
+    </p>
+  }
+
+  @if (briefContents().length) {
+    <p class="consent-page__brief">
+      @if (usesEvidenceOnly()) {
+        The on-device model reads what we measured in your browser — {{ briefContents().join(', ') }} — rather
+        than the chat text itself. No transcript is handed to the model.
+        @if (localCapNotice(); as cap) {
+          Those measurements come from the most recent {{ cap.limit | number }} of
+          {{ cap.total | number }} messages, the window an on-device model can work through.
+        } @else {
+          Every message was analyzed here to produce it, so nothing is left out for length.
+        }
+      } @else if (isLocal()) {
+        Alongside the chat, the on-device analysis will also use what we measured in your browser:
+        {{ briefContents().join(', ') }}. All of it was computed on this device from the same conversation.
+      } @else {
+        Alongside the chat, we'll also send what we measured in your browser:
+        {{ briefContents().join(', ') }}. All of it was computed on this device from the same conversation.
+      }
+    </p>
+  }
+
+  @if (!usesEvidenceOnly() && trimPreview(); as trim) {
+    @if (trim.wasAutoTrimmed) {
+      <p class="consent-page__warning" role="alert">
+        This chat is long enough that it won't fit in {{ providerLabel() }}'s context window, even with your trim
+        settings — only the most recent {{ trim.keptMessageCount }} of {{ trim.candidateMessageCount }} messages will
+        be sent. Go back and narrow the date range if you want a different window.
+      </p>
+    }
+  }
+
+  <label class="consent-page__toggle">
+    <input type="checkbox" [checked]="anonymize()" (change)="toggleAnonymize()" />
+    <span>
+      <strong>Anonymize participants.</strong> Replace real names with "Participant A/B/C" in what's sent and in the
+      report. Off by default — real names are used unless you turn this on.
+    </span>
+  </label>
+
+  <label class="consent-page__toggle">
+    <input type="checkbox" [checked]="consentChecked()" (change)="toggleConsent()" />
+    <span>
+      @if (isLocal()) {
+        I have the right to analyze this conversation, and I understand it will be processed entirely on this
+        device by {{ providerLabel() }}.
+      } @else {
+        I have the right to share this conversation, and I understand it will be sent directly to
+        {{ providerLabel() }} using my own API key.
+      }
+    </span>
+  </label>
+
+  <div class="consent-page__actions">
+    <app-button variant="ghost" (pressed)="back()">← Back</app-button>
+    <app-button (pressed)="proceed()" [disabled]="!consentChecked()">Dissect</app-button>
+  </div>
+</section>

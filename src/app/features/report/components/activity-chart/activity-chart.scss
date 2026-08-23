@@ -1,0 +1,62 @@
+.activity-chart {
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  &__label {
+    flex: 0 0 8rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__track {
+    flex: 1;
+    height: 0.625rem;
+    background: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  &__bar {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  &__value {
+    flex: 0 0 4rem;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-chart {
+    &__label {
+      flex-basis: 5.5rem;
+    }
+  }
+}
+
+@media print {
+  .activity-chart {
+    break-inside: avoid;
+  }
+}

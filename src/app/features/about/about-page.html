@@ -1,0 +1,115 @@
+<section class="about-page">
+  <h1>About The Dissector</h1>
+  <p class="about-page__intro">
+    A browser-only tool that reads a WhatsApp group chat and writes a psychological dossier on
+    everyone in it. There is no backend, no account, and no database — the whole thing runs on
+    your machine and, if you want, never talks to anyone at all.
+  </p>
+
+  <div class="about-page__section">
+    <h2>What it is, and what it isn't</h2>
+    <p>
+      It's a piece of entertainment built on real behavioural measurement. The numbers underneath
+      it — who dominates a conversation, who deflects, who never replies — are counted honestly.
+      The characterisations written on top of them are an AI's opinion, delivered theatrically.
+    </p>
+    <p class="about-page__plain">
+      It is not a clinical or professional psychological assessment, it isn't diagnostic, and it
+      shouldn't be treated as evidence about anyone. It profiles real, named people who never
+      agreed to be profiled — which is worth remembering before sharing a report with the group
+      it describes.
+    </p>
+  </div>
+
+  <div class="about-page__section">
+    <h2>How it works</h2>
+    <ol class="about-page__steps">
+      <li>
+        <strong>Parsing.</strong> The <code>.txt</code> export is parsed in the browser, handling
+        both the Android and iOS timestamp formats. Nothing is uploaded to do this.
+      </li>
+      <li>
+        <strong>Forensics.</strong> Two small models run on your device to build a case file:
+        one retrieves the actual lines behind a behaviour by semantic similarity, another reads
+        the emotional temperature month by month. Alongside them, a pass of pure arithmetic
+        measures pronoun ratios, conversation hijacking, double-texting, reply latency and who
+        starts things.
+      </li>
+      <li>
+        <strong>Writing.</strong> Those findings go either to a cloud model via your own API key,
+        or to a model running entirely on your own hardware. On-device runs never see the raw
+        transcript at all — they read the measurements instead, which is what makes a small model
+        viable on a long chat.
+      </li>
+      <li>
+        <strong>Rendering.</strong> The result is laid out as a case file and printed to PDF
+        through the browser's own print pipeline.
+      </li>
+    </ol>
+  </div>
+
+  <div class="about-page__section">
+    <h2>Architecture</h2>
+    <p>
+      An Angular 21 single-page app, zoneless, with signals for state and no state-management
+      library. Everything below lives under <code>src/app/core/</code>:
+    </p>
+    <dl class="about-page__arch">
+      <dt>parsing</dt>
+      <dd>WhatsApp export parsing, transcript building, message-window trimming.</dd>
+      <dt>forensics</dt>
+      <dd>Leverage metrics, semantic receipt retrieval and emotion analysis, in a Web Worker.</dd>
+      <dt>local-llm</dt>
+      <dd>
+        The on-device runtime — transformers.js on WebGPU in a second Worker, an eight-model
+        catalogue, download and cache management, and device-lost recovery.
+      </dd>
+      <dt>providers</dt>
+      <dd>
+        Six adapters behind one interface — Claude, Gemini, GPT, Grok, DeepSeek and on-device —
+        plus structured-output parsing with a lenient markdown fallback.
+      </dd>
+      <dt>prompts</dt>
+      <dd>
+        The cloud system prompt, and a separate three-pass sequence for on-device runs: group
+        audit, then per-participant dossiers, then superlatives.
+      </dd>
+      <dt>state</dt>
+      <dd>A single signal store covering the whole upload-to-report flow.</dd>
+    </dl>
+    <p>
+      It's a progressive web app: installable, and once installed it works offline apart from the
+      cloud providers it can no longer reach.
+    </p>
+  </div>
+
+  <div class="about-page__section">
+    <h2>Privacy</h2>
+    <p class="about-page__plain">
+      There is no server to send anything to. Your API key is held in memory for the life of the
+      browser tab and is never written to storage. The only things kept on disk are your on-device
+      limits, whether you dismissed the install prompt, and any model weights you downloaded.
+    </p>
+    <p class="about-page__plain">
+      Three things leave your machine, and only these: requests to whichever AI provider you chose,
+      using your own key; model files fetched from Hugging Face if you use an on-device model; and
+      nothing else — fonts are bundled with the app rather than loaded from a CDN. Choose an
+      on-device model and the first of those disappears too.
+    </p>
+  </div>
+
+  <div class="about-page__section">
+    <h2>Who built it</h2>
+    <p>
+      Built by
+      <a href="https://github.com/theprogrammersingh" target="_blank" rel="noopener noreferrer"
+        >Simar Preet Singh</a
+      >. The source is MIT-licensed; the models it downloads carry their own terms, listed on the
+      forensics screen and in the repository's LICENSE file.
+    </p>
+  </div>
+
+  <div class="about-page__cta">
+    <app-button (pressed)="start()">Dissect your chat</app-button>
+  </div>
+</section>

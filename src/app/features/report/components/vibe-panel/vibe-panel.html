@@ -1,0 +1,54 @@
+<p class="vibe-panel__caption">
+  Emotional tone read on this device, message by message.
+  @if (wasSampled()) {
+    Measured on a representative sample across the whole date range, not every single message.
+  }
+</p>
+
+@if (cells().length) {
+  <section class="vibe-panel__section">
+    <h3>Tension over time</h3>
+    <p class="vibe-panel__hint">Share of anger, annoyance and disgust in each month. Darker means hotter.</p>
+    <ol class="vibe-panel__timeline">
+      @for (cell of cells(); track cell.label) {
+        <li
+          class="vibe-panel__cell"
+          [class.vibe-panel__cell--peak]="cell.isPeak"
+          [class.vibe-panel__cell--on-dark]="cell.onDark"
+        >
+          <div
+            class="vibe-panel__cell-fill"
+            [style.opacity]="cell.intensity"
+            role="img"
+            [attr.aria-label]="cell.label + ': ' + cell.tensionText + ' tension, ' + cell.messageCount + ' messages'"
+          ></div>
+          <span class="vibe-panel__cell-value">{{ cell.tensionText }}</span>
+          <span class="vibe-panel__cell-label">{{ cell.label }}</span>
+        </li>
+      }
+    </ol>
+    @if (peakTensionLabel()) {
+      <p class="vibe-panel__peak">
+        Peak hostility: <strong>{{ peakTensionLabel() }}</strong>.
+      </p>
+    }
+  </section>
+}
+
+@if (profileViews().length) {
+  <section class="vibe-panel__section">
+    <h3>Emotional profiles</h3>
+    <div class="vibe-panel__profiles">
+      @for (profile of profileViews(); track profile.participantId) {
+        <article class="vibe-panel__profile">
+          <header class="vibe-panel__profile-head">
+            <h4>{{ profile.displayName }}</h4>
+            <p class="vibe-panel__profile-headline">{{ profile.headline }}</p>
+          </header>
+          <app-meter-list [entries]="profile.entries" [max]="1" [compact]="true"></app-meter-list>
+          <p class="vibe-panel__profile-count">{{ profile.sampledMessageCount }} messages read</p>
+        </article>
+      }
+    </div>
+  </section>
+}

@@ -1,0 +1,35 @@
+.case-file-card {
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &--group {
+    background: var(--surface-secondary);
+    border-left: 4px solid var(--color-accent);
+  }
+
+  &--superlatives {
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+
+    .case-file-card__title {
+      color: var(--text-accent-on-dark);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .case-file-card {
+    padding: var(--space-md);
+  }
+}
+
+@media print {
+  .case-file-card {
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,24 @@
+@if (!dismissed() && (install.canInstall() || install.isIosSafari())) {
+  <div class="install-banner" role="dialog" aria-label="Install this app">
+    @if (install.canInstall()) {
+      <p>Install The Dissector for faster access — no browser chrome, launches like a real app.</p>
+      <div class="install-banner__actions">
+        <app-button (pressed)="installNow()">Install</app-button>
+        <button type="button" class="install-banner__dismiss" (click)="dismiss()">Not now</button>
+      </div>
+    } @else {
+      <p>Install The Dissector on your Home Screen:</p>
+      <ol class="install-banner__steps">
+        <li>
+          <svg class="install-banner__share-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 3v12M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Tap the Share icon in Safari's toolbar
+        </li>
+        <li>Scroll down and tap "Add to Home Screen"</li>
+        <li>Tap "Add" in the top-right corner</li>
+      </ol>
+      <button type="button" class="install-banner__dismiss" (click)="dismiss()">Got it</button>
+    }
+  </div>
+}

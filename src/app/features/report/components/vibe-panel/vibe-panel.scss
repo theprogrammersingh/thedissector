@@ -1,0 +1,139 @@
+.vibe-panel {
+  &__caption {
+    margin: 0 0 var(--space-md);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  &__section + &__section {
+    margin-top: var(--space-lg);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  &__hint {
+    margin: var(--space-xs) 0 var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  // A sequential (magnitude) encoding, so one hue at varying intensity is the correct form —
+  // and it keeps the single-accent palette intact. The value is printed in every cell, so
+  // nothing is carried by color alone.
+  &__timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+  }
+
+  &__cell {
+    position: relative;
+    flex: 1 0 3.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-xs) 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  &__cell-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    z-index: -1;
+  }
+
+  &__cell-value {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-charcoal);
+  }
+
+  &__cell-label {
+    font-size: 0.68rem;
+    color: var(--color-charcoal);
+    white-space: nowrap;
+  }
+
+  // Charcoal on a full-strength crimson fill is only ~2.8:1. Past the halfway point of the
+  // ramp the ink flips to cream, which is a verified 5.9:1 against this accent.
+  &__cell--on-dark &__cell-value,
+  &__cell--on-dark &__cell-label {
+    color: var(--color-cream);
+  }
+
+  &__cell--peak {
+    outline: 2px solid var(--color-charcoal);
+    outline-offset: -2px;
+  }
+
+  &__peak {
+    margin: var(--space-sm) 0 0;
+    font-size: 0.85rem;
+  }
+
+  &__profiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+  }
+
+  &__profile {
+    padding: var(--space-sm);
+    background: var(--surface-secondary);
+    border-radius: var(--radius-sm);
+    break-inside: avoid;
+  }
+
+  &__profile-head {
+    margin-bottom: var(--space-sm);
+
+    h4 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+    }
+  }
+
+  &__profile-headline {
+    margin: 2px 0 0;
+    font-size: 0.78rem;
+    color: var(--text-accent);
+    text-transform: capitalize;
+  }
+
+  &__profile-count {
+    margin: var(--space-sm) 0 0;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+}
+
+@media print {
+  .vibe-panel__timeline {
+    overflow-x: visible;
+  }
+
+  .vibe-panel__cell-fill {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .vibe-panel__section {
+    break-inside: avoid;
+  }
+}

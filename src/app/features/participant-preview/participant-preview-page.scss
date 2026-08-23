@@ -1,0 +1,184 @@
+.participant-preview {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+
+  &__intro {
+    color: var(--text-muted);
+  }
+
+  &__hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+    padding: var(--space-md);
+    background: var(--surface-secondary);
+    border-radius: var(--radius-md);
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    dt {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    dd {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+  }
+
+  &__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  &__name-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  &__name {
+    width: 100%;
+    min-height: 44px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: var(--space-xs) calc(var(--space-lg) + var(--space-xs)) var(--space-xs) var(--space-sm);
+    border: 1px solid transparent;
+    border-bottom-color: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-primary);
+
+    &:hover,
+    &:focus {
+      border-color: var(--border-subtle);
+      background: var(--surface-primary);
+    }
+  }
+
+  &__pencil {
+    position: absolute;
+    right: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    pointer-events: none;
+  }
+
+  &__count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  &__confirm {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    width: 100%;
+  }
+
+  &__flag {
+    font-size: 0.75rem;
+    color: var(--text-accent);
+    white-space: nowrap;
+  }
+
+  &__merge {
+    min-height: 44px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--surface-primary);
+    color: var(--text-primary);
+  }
+
+  // Spans the whole flex row so it reads as a statement about the fieldset, not another field.
+  &__cap-notice {
+    flex-basis: 100%;
+    margin: 0;
+    padding: var(--space-sm) var(--space-md);
+    border-left: 3px solid var(--color-accent);
+    background: var(--surface-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  &__trim {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+
+    legend {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 0 var(--space-xs);
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-size: 0.85rem;
+    }
+
+    input {
+      min-height: 44px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      background: var(--surface-primary);
+      color: var(--text-primary);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .participant-preview {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

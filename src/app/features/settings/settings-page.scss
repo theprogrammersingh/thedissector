@@ -1,0 +1,106 @@
+.settings-page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+
+  &__intro {
+    color: var(--text-muted);
+  }
+
+  &__field {
+    display: block;
+    margin-bottom: var(--space-md);
+
+    span {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    select {
+      width: 100%;
+      min-height: 44px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      padding: var(--space-sm);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      background: var(--surface-primary);
+      color: var(--text-primary);
+    }
+  }
+
+  &__advanced {
+    margin: var(--space-md) 0;
+
+    summary {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    label {
+      display: block;
+      margin-top: var(--space-sm);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    input {
+      display: block;
+      min-height: 44px;
+      margin-top: var(--space-xs);
+      width: 100%;
+      max-width: 200px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      background: var(--surface-primary);
+      color: var(--text-primary);
+    }
+  }
+
+  &__hint {
+    display: block;
+    max-width: 360px;
+    margin-top: var(--space-xs);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  &__test {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0 var(--space-lg);
+  }
+
+  &__test-result {
+    font-size: 0.85rem;
+
+    &--ok {
+      color: #2f7a3d;
+    }
+
+    &--error {
+      color: var(--color-accent);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-page {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

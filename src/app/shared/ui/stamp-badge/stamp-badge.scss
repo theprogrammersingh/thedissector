@@ -1,0 +1,12 @@
+.stamp-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-accent);
+  border: 1.5px solid var(--text-accent);
+  border-radius: var(--radius-sm);
+  padding: 0.2em 0.5em;
+  transform: rotate(-1.5deg);
+}

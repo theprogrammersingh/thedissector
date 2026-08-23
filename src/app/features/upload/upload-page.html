@@ -1,0 +1,42 @@
+<section class="upload-page">
+  <h1>Submit the evidence</h1>
+  <p class="upload-page__intro">
+    Paste a WhatsApp chat export, or drop the exported <code>.txt</code> file below. Nothing leaves your browser at
+    this step.
+  </p>
+
+  <div
+    class="upload-page__dropzone"
+    [class.upload-page__dropzone--active]="isDragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+  >
+    <p>Drop your exported <code>.txt</code> file here, or</p>
+    <label class="upload-page__file-label">
+      Choose file
+      <input type="file" accept=".txt" (change)="onFileSelected($event)" hidden />
+    </label>
+  </div>
+
+  <label class="upload-page__field">
+    <span>Chat name (optional)</span>
+    <input type="text" [value]="chatName()" (input)="onChatNameInput($event)" placeholder="e.g. Weekend Trip 2024" />
+  </label>
+
+  <label class="upload-page__field">
+    <span>Or paste the chat text directly</span>
+    <textarea
+      rows="8"
+      [value]="rawText()"
+      (input)="onRawTextInput($event)"
+      placeholder="[1/5/24, 2:32:10 PM] Alice: ..."
+    ></textarea>
+  </label>
+
+  @if (error()) {
+    <p class="upload-page__error" role="alert">{{ error() }}</p>
+  }
+
+  <app-button (pressed)="submit()">Parse chat</app-button>
+</section>

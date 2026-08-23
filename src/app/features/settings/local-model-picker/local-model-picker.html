@@ -1,0 +1,87 @@
+<div class="local-model-picker">
+  @switch (localModel.status()) {
+    @case ('idle') {
+      <ul class="local-model-picker__list">
+        @for (model of models; track model.key) {
+          <li>
+            <button
+              type="button"
+              class="local-model-picker__option"
+              [class.local-model-picker__option--downloaded]="model.key === localModel.cachedModelKey()"
+              (click)="selectModel(model.key)"
+            >
+              <span class="local-model-picker__option-label">{{ model.label }}</span>
+              @if (model.key === localModel.cachedModelKey()) {
+                <span class="local-model-picker__option-badge">✓ Downloaded</span>
+              } @else {
+                <span class="local-model-picker__option-size">≈{{ formatBytes(model.estimatedDownloadBytes) }}</span>
+              }
+            </button>
+            @if (model.caveat) {
+              <p class="local-model-picker__option-caveat" role="note">
+                {{ model.caveat }}
+                @if (model.caveatDetail; as detail) {
+                  <!-- Detail on demand: the full reasoning under every row was the thing that made
+                       this list unreadable. -->
+                  <details class="local-model-picker__option-why">
+                    <summary>Why?</summary>
+                    {{ detail }}
+                  </details>
+                }
+              </p>
+            }
+          </li>
+        }
+      </ul>
+      <p class="local-model-picker__hint">Runs entirely on this device — nothing is sent anywhere. Sizes are approximate.</p>
+    }
+
+    @case ('awaiting-confirmation') {
+      @if (selectedDescriptor(); as m) {
+        <p class="local-model-picker__confirm">
+          This will download ≈{{ formatBytes(m.estimatedDownloadBytes) }} and use that much space on this device. Continue?
+        </p>
+        @if (m.caveat) {
+          <!-- Full detail inline here, unlike the list: this is the moment the download is
+               actually being committed to. -->
+          <p class="local-model-picker__option-caveat" role="note">
+            {{ m.caveat }}@if (m.caveatDetail) { {{ m.caveatDetail }} }
+          </p>
+        }
+        <div class="local-model-picker__actions">
+          <app-button (pressed)="confirmDownload()">Download {{ m.label }}</app-button>
+          <app-button variant="ghost" (pressed)="cancelDownload()">Cancel</app-button>
+        </div>
+      }
+    }
+
+    @case ('clearing-cache') {
+      <p class="local-model-picker__flavor" aria-live="polite">Clearing the old model…</p>
+    }
+
+    @case ('downloading') {
+      <div class="local-model-picker__progress-track">
+        <div class="local-model-picker__progress-bar" [style.width.%]="progressPercent"></div>
+      </div>
+      <p class="local-model-picker__flavor" aria-live="polite">{{ flavorLine }} ({{ progressPercent }}%)</p>
+    }
+
+    @case ('initializing') {
+      <p class="local-model-picker__flavor" aria-live="polite">{{ flavorLine }}</p>
+    }
+
+    @case ('ready') {
+      @if (selectedDescriptor(); as m) {
+        <p class="local-model-picker__ready">
+          <span class="local-model-picker__ready-mark">✓</span> {{ m.label }} is ready.
+        </p>
+        <app-button variant="ghost" (pressed)="changeModel()">Change model</app-button>
+      }
+    }
+
+    @case ('error') {
+      <p class="local-model-picker__error" role="alert">{{ localModel.error()?.message }}</p>
+      <app-button variant="secondary" (pressed)="retry()">Try again</app-button>
+    }
+  }
+</div>

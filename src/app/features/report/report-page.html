@@ -1,0 +1,81 @@
+@if (result(); as r) {
+  <section class="report-page">
+    <!-- Print-only cover. `aria-hidden` here is correct — its heading and date duplicate the
+         on-screen header below — but the disclaimer must NOT be trapped inside it, so that now
+         lives in its own element that both screen and assistive tech reach. -->
+    <section class="report-page__cover" aria-hidden="true">
+      <p class="report-page__cover-masthead">THE DISSECTOR</p>
+      <h1 class="report-page__cover-title">{{ metadata()?.chatName }}</h1>
+      <p class="report-page__cover-date">{{ metadata()?.generatedAt | date: 'longDate' }}</p>
+    </section>
+
+    <p class="report-page__disclaimer" role="note">
+      This report is AI-generated content, created for fun. It is not a clinical or professional
+      psychological assessment and shouldn't be taken seriously.
+    </p>
+
+    <header class="report-page__header">
+      <h1>{{ metadata()?.chatName }}</h1>
+      <p class="report-page__meta">
+        Analyzed with {{ providerLabel() }} · {{ metadata()?.generatedAt | date: 'medium' }}
+        @if (usedFallbackParser()) {
+          <span class="report-page__fallback-note">(parsed from a non-structured response)</span>
+        }
+      </p>
+      <app-button (pressed)="print()" [disabled]="printing()">
+        {{ printing() ? 'Preparing…' : 'Export PDF' }}
+      </app-button>
+    </header>
+
+    <app-case-file-card kind="group" [title]="r.groupAudit.title">
+      <app-verdict-quote [quote]="r.groupAudit.verdictQuote"></app-verdict-quote>
+      <p>{{ r.groupAudit.summary }}</p>
+    </app-case-file-card>
+
+    @if (activityEntries().length) {
+      <app-case-file-card kind="group" title="Message Activity">
+        <app-activity-chart [entries]="activityEntries()"></app-activity-chart>
+      </app-case-file-card>
+    }
+
+    @if (leverage().length) {
+      <app-case-file-card kind="group" title="Leverage Index">
+        <app-leverage-panel [metrics]="leverage()" [nameFor]="nameLookup()"></app-leverage-panel>
+      </app-case-file-card>
+    }
+
+    @if (emotionTimeline().length || emotionProfiles().length) {
+      <app-case-file-card kind="group" title="The Vibe Timeline">
+        <app-vibe-panel
+          [profiles]="emotionProfiles()"
+          [timeline]="emotionTimeline()"
+          [peakTensionLabel]="peakTensionLabel()"
+          [wasSampled]="emotionsWereSampled()"
+          [nameFor]="nameLookup()"
+        ></app-vibe-panel>
+      </app-case-file-card>
+    }
+
+    <div class="report-page__dossiers">
+      @for (d of r.dossiers; track d.participantId) {
+        <app-dossier-card
+          [dossier]="d"
+          [forceExpanded]="printing()"
+          [receipts]="receiptsFor(d.participantId)"
+        ></app-dossier-card>
+      }
+    </div>
+
+    @if (r.superlatives.length) {
+      <app-case-file-card kind="superlatives" title="Superlatives & Awards">
+        <div class="report-page__superlatives">
+          @for (s of r.superlatives; track s.title) {
+            <app-superlative-badge [superlative]="s" [participantName]="nameFor(s.participantId)"></app-superlative-badge>
+          }
+        </div>
+      </app-case-file-card>
+    }
+
+    <app-button variant="ghost" (pressed)="startOver()">Start a new dissection</app-button>
+  </section>
+}

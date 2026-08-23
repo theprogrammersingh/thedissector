@@ -1,0 +1,11 @@
+<ul class="activity-chart__list">
+  @for (entry of sortedEntries(); track entry.participantId) {
+    <li class="activity-chart__row">
+      <span class="activity-chart__label">{{ entry.displayName }}</span>
+      <div class="activity-chart__track">
+        <div class="activity-chart__bar" [style.width.%]="barWidth(entry.messagesPerDay)"></div>
+      </div>
+      <span class="activity-chart__value">{{ entry.messagesPerDay | number: '1.1-1' }}/day</span>
+    </li>
+  }
+</ul>

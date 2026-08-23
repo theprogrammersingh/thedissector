@@ -1,0 +1,17 @@
+<label class="masked-input">
+  <span class="masked-input__label">{{ label() }}</span>
+  <div class="masked-input__row">
+    <input
+      class="masked-input__field"
+      [type]="revealed() ? 'text' : 'password'"
+      [placeholder]="placeholder()"
+      [value]="value()"
+      (input)="onInput($event)"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button type="button" class="masked-input__toggle" (click)="toggleReveal()">
+      {{ revealed() ? 'Hide' : 'Show' }}
+    </button>
+  </div>
+</label>

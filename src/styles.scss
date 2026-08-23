@@ -1,1 +1,183 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'app/shared/styles/tokens' as *;
+@use 'app/shared/styles/plain-chrome';
+
+/**
+ * Fonts are self-hosted rather than loaded from the Google Fonts CDN.
+ *
+ * Two reasons, both real. The app tells users "nothing leaves your browser at this step" — that
+ * was not quite true while every page load handed Google an IP, user-agent and referrer. And the
+ * service worker can only cache same-origin assets, so an installed PWA lost its typography
+ * entirely offline and fell back to Courier/system sans.
+ *
+ * Latin and latin-ext subsets only. Inter ships as a variable font, so one file covers 400–700
+ * and the four weight declarations the app uses all resolve to it.
+ *
+ * Both families are SIL Open Font License 1.1, which permits redistribution — see LICENSE.
+ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Special Elite';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/special-elite-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Special Elite';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/special-elite-400-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  margin: 0 0 var(--space-sm);
+}
+
+p {
+  margin: 0 0 var(--space-sm);
+}
+
+a {
+  color: var(--text-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/**
+ * Print is a separate design, not the screen design shrunk onto paper.
+ *
+ * The screen palette layers three surfaces — cream page, darker cream cards, a charcoal panel —
+ * and the previous print rule forced all of them onto paper with a blanket
+ * `print-color-adjust: exact`. The result was a patchwork: tinted blocks and one near-black slab
+ * floating on white, with the page's own cream showing through wherever a card didn't reach.
+ *
+ * The fix is to re-point the design tokens rather than to override component by component. Every
+ * report component reads these variables, so redefining them here converts the entire tree to
+ * ink-on-paper in one place: one uniform white ground, structure carried by hairline rules,
+ * spacing and type weight — the way a printed document actually reads.
+ */
+@media print {
+  @page {
+    size: A4;
+    margin: 1.8cm;
+  }
+
+  :root {
+    --surface-primary: #fff;
+    --surface-secondary: #fff;
+    --surface-inverse: #fff;
+    --surface-inverse-secondary: #fff;
+    // Text that was light-on-dark on screen has to invert, or it prints white on white.
+    --text-inverse: #1a1816;
+    --text-on-accent: #1a1816;
+    // The lighter crimson exists to clear contrast against charcoal. With the charcoal gone it
+    // reads as washed-out pink on paper, so it collapses back to the standard accent.
+    --color-accent-on-dark: #b3122d;
+    --text-accent-on-dark: #b3122d;
+    // Slightly stronger than the screen hairline: #d8cfba reads on a lit display but disappears
+    // in ink at 300dpi.
+    --border-subtle: #a9a294;
+    // Darker than the screen's muted grey: light grey text is legible backlit, weak in ink.
+    --text-muted: #4a453d;
+  }
+
+  html,
+  body {
+    background: #fff;
+  }
+
+  .app-shell__header,
+  .app-shell__footer,
+  app-update-banner,
+  app-install-banner {
+    display: none !important;
+  }
+
+  // Nothing that is merely decorative gets forced into the printer. Only the two charts encode
+  // meaning as colour, so only they opt back in.
+  app-activity-chart,
+  app-vibe-panel {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  // A dossier split across a page boundary is the single ugliest thing print can do here.
+  app-dossier-card,
+  app-case-file-card,
+  app-superlative-badge,
+  app-verdict-quote {
+    break-inside: avoid;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}

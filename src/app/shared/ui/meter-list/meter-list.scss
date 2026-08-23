@@ -1,0 +1,83 @@
+.meter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  &--compact {
+    gap: var(--space-xs);
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  &__label {
+    flex: 0 0 8rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__track {
+    flex: 1;
+    height: 0.625rem;
+    background: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  &__bar {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  &__value {
+    flex: 0 0 5rem;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  &--compact &__label {
+    flex-basis: 6rem;
+    font-size: 0.8rem;
+  }
+
+  &--compact &__track {
+    height: 0.4375rem;
+  }
+
+  &--compact &__value {
+    flex-basis: 3.25rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .meter-list__label {
+    flex-basis: 5.5rem;
+  }
+}
+
+@media print {
+  .meter-list {
+    break-inside: avoid;
+  }
+
+  // Bars are backgrounds; without this they vanish in most print engines.
+  .meter-list__bar,
+  .meter-list__track {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

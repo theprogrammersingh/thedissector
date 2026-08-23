@@ -1,0 +1,86 @@
+<section class="participant-preview">
+  <h1>Persons of interest</h1>
+  <p class="participant-preview__intro">A last, calm look at who's about to be profiled — before anything is sent anywhere.</p>
+
+  @if (stats(); as s) {
+    <dl class="participant-preview__stats">
+      <div><dt>Messages</dt><dd>{{ s.messageCount }}</dd></div>
+      <div><dt>Participants</dt><dd>{{ s.participantCount }}</dd></div>
+      <div><dt>Date range</dt><dd>{{ formatDate(s.dateRangeStart) }} – {{ formatDate(s.dateRangeEnd) }}</dd></div>
+      <div><dt>Longest gap</dt><dd>{{ formatDuration(s.longestGapMs) }}</dd></div>
+    </dl>
+  }
+
+  <p class="participant-preview__hint">
+    Names are editable — click a name to rename it. You can also remove someone from the chat entirely below.
+  </p>
+
+  <ul class="participant-preview__list">
+    @for (p of participants(); track p.id) {
+      <li class="participant-preview__item">
+        <span class="participant-preview__name-wrap">
+          <input class="participant-preview__name" type="text" [value]="p.displayName" (change)="rename(p.id, $event)" />
+          <span class="participant-preview__pencil" aria-hidden="true">✎</span>
+        </span>
+        <span class="participant-preview__count">{{ p.messageCount }} messages</span>
+        @if (p.looksLikePhoneNumber) {
+          <span class="participant-preview__flag">looks like a phone number</span>
+          <select class="participant-preview__merge" (change)="merge(p.id, $event)">
+            <option value="">Merge into…</option>
+            @for (other of participants(); track other.id) {
+              @if (other.id !== p.id) {
+                <option [value]="other.id">{{ other.displayName }}</option>
+              }
+            }
+          </select>
+        }
+        @if (pendingRemovalId() === p.id) {
+          <span class="participant-preview__confirm">
+            Remove {{ p.displayName }} and their {{ p.messageCount }} messages? This can't be undone.
+            <app-button variant="primary" (pressed)="confirmRemove(p.id)">Remove</app-button>
+            <app-button variant="ghost" (pressed)="cancelRemove()">Cancel</app-button>
+          </span>
+        } @else if (participants().length > 1) {
+          <app-button variant="ghost" (pressed)="requestRemove(p.id)">Remove</app-button>
+        }
+      </li>
+    }
+  </ul>
+
+  <fieldset class="participant-preview__trim">
+    <legend>Trim the chat (optional)</legend>
+    <label>
+      From
+      <input type="date" (change)="onStartDateChange($event)" />
+    </label>
+    <label>
+      To
+      <input type="date" (change)="onEndDateChange($event)" />
+    </label>
+    <label>
+      Keep only the most recent
+      <input
+        type="number"
+        min="1"
+        placeholder="e.g. 2000"
+        [value]="maxMessagesInput()"
+        (change)="onMaxMessagesChange($event)"
+      />
+      messages
+    </label>
+
+    @if (localCapNotice(); as cap) {
+      <p class="participant-preview__cap-notice" role="note">
+        You've picked an on-device model, so only the most recent
+        <strong>{{ cap.limit | number }}</strong> of {{ cap.total | number }} messages will be analyzed —
+        a local model has to read every message itself, which is slow on a chat this long. Raise the
+        limit under Advanced on the next screen if your device can handle it.
+      </p>
+    }
+  </fieldset>
+
+  <div class="participant-preview__actions">
+    <app-button variant="ghost" (pressed)="back()">← Back</app-button>
+    <app-button (pressed)="continue()">Continue to settings</app-button>
+  </div>
+</section>

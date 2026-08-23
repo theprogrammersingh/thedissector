@@ -1,0 +1,105 @@
+.report-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+
+  &__header {
+    margin-bottom: var(--space-lg);
+  }
+
+  &__meta {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-md);
+  }
+
+  &__fallback-note {
+    font-style: italic;
+  }
+
+  &__superlatives {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-md);
+  }
+
+  &__cover {
+    display: none;
+  }
+
+  // On screen it sits under the header; in print it moves onto the cover page. Either way it is
+  // present in the DOM and in the accessibility tree — it used to be neither.
+  &__disclaimer {
+    margin: 0 0 var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+    border-left: 3px solid var(--color-accent);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+}
+
+@media (max-width: 480px) {
+  .report-page {
+    padding: var(--space-lg) var(--space-md);
+  }
+}
+
+@media print {
+  .report-page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+
+    &__header,
+    > app-button {
+      display: none !important;
+    }
+
+    // No `min-height: 100vh` and no break here: the cover and the disclaimer below it are one
+    // title page, and a full-height cover would push the disclaimer onto a sheet of its own.
+    // The break lives on the disclaimer, which is the last thing on that page.
+    &__cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 22vh;
+      margin-bottom: var(--space-xl);
+      text-align: center;
+    }
+
+    &__cover-masthead {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: var(--space-lg);
+    }
+
+    &__cover-title {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    &__cover-date {
+      color: var(--text-muted);
+      margin-bottom: var(--space-xl);
+    }
+
+    // FR-10 wants this prominent on the first page, not fine print — so in print it becomes a
+    // framed, display-face block and is pulled up onto the cover.
+    &__disclaimer {
+      max-width: 32rem;
+      margin: 0 auto;
+      padding: var(--space-md);
+      border-left: none;
+      border: 1.5px solid var(--color-accent);
+      color: var(--color-accent);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      text-align: center;
+      break-after: page;
+    }
+  }
+}

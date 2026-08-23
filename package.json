@@ -1,6 +1,14 @@
 {
   "name": "the-dissector",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Turn a WhatsApp group chat into an AI-generated forensic-psychology report. Bring your own API key, or run entirely on-device.",
+  "author": "Simar Preet Singh (https://github.com/theprogrammersingh)",
+  "license": "MIT",
+  "homepage": "https://thedissector.programmersingh.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theprogrammersingh/thedissector.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -17,6 +25,8 @@
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "@angular/service-worker": "^21.2.0",
+    "@huggingface/transformers": "^4.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

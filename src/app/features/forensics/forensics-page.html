@@ -1,0 +1,220 @@
+<section class="forensics-page">
+  <h1>Dusting for prints</h1>
+  <p class="forensics-page__intro">
+    Before anything leaves this device, we run our own pass over the transcript — counting, measuring, and
+    flagging. The findings go into the report, and travel with your chat so the analysis has hard evidence to
+    work from instead of guesswork.
+  </p>
+
+  @if (wasCapped()) {
+    <p class="forensics-page__cap-notice" role="note">
+      This chat is longer than an on-device model can work through, so these passes read the most
+      recent <strong>{{ messageCount() | number }}</strong> of {{ totalMessageCount() | number }} messages.
+      You can raise that limit under Advanced on the previous screen if your device can take it.
+    </p>
+  }
+
+  <ol class="forensics-page__passes">
+    <li class="forensics-page__pass forensics-page__pass--done">
+      <div class="forensics-page__pass-head">
+        <h2>Leverage Index</h2>
+        <span class="forensics-page__pass-status">{{ running() ? 'Counting…' : 'Complete' }}</span>
+      </div>
+      <p class="forensics-page__pass-body">
+        Pronoun ratios, conversation hijacking, double-texting, who starts things, who never answers.
+        Pure arithmetic over {{ wasCapped() ? '' : 'all ' }}{{ messageCount() | number }} messages — no model,
+        no download, nothing to wait for.
+      </p>
+      @if (leverageCount()) {
+        <p class="forensics-page__pass-result">
+          Profiled {{ leverageCount() }} of {{ participantCount() }} participants.
+        </p>
+      }
+    </li>
+
+    <li
+      class="forensics-page__pass"
+      [class.forensics-page__pass--done]="receiptsStatus() === 'ready'"
+      [class.forensics-page__pass--busy]="receiptsBusy()"
+    >
+      <div class="forensics-page__pass-head">
+        <h2>The Receipts</h2>
+        <span class="forensics-page__pass-status">
+          @switch (receiptsStatus()) {
+            @case ('ready') { Complete }
+            @case ('downloading') { Downloading }
+            @case ('running') { Reading }
+            @case ('error') { Failed }
+            @case ('cancelled') { Stopped }
+            @default { {{ isLocal() ? 'Running by default · 23 MB' : 'Optional · 23 MB' }} }
+          }
+        </span>
+      </div>
+      <p class="forensics-page__pass-body">
+        Searches the chat for the actual lines behind the behaviour — guilt trips, passive aggression,
+        unsolicited advice — and pulls them out as quotable exhibits. Downloads a small language model once,
+        then runs entirely offline.
+        @if (isLocal()) {
+          Running automatically because you picked an on-device model: your chat never leaves the browser,
+          so these findings are what the model writes the report from.
+        }
+      </p>
+
+      @if (receiptsBusy()) {
+        <div class="forensics-page__progress">
+          <div class="forensics-page__progress-track">
+            <div
+              class="forensics-page__progress-bar"
+              [class.forensics-page__progress-bar--indeterminate]="progressPercent() === null"
+              [style.width.%]="progressPercent() ?? 100"
+            ></div>
+          </div>
+          <p class="forensics-page__pass-result" role="status">
+            {{ progress()?.label }}
+            @if (progressPercent() !== null) { {{ progressPercent() }}% }
+          </p>
+        </div>
+      } @else if (receiptsStatus() === 'ready') {
+        <p class="forensics-page__pass-result">
+          @if (receiptCount()) {
+            Flagged {{ receiptCount() }} quotes worth a second look.
+          } @else {
+            Nothing crossed the bar — no quotes flagged. That's a real result, not a failure.
+          }
+        </p>
+      } @else if (receiptsStatus() === 'error') {
+        <p class="forensics-page__pass-error" role="alert">
+          {{ forensicsError()?.message || 'That pass failed.' }} The rest of the report is unaffected.
+        </p>
+      }
+
+      <div class="forensics-page__pass-actions">
+        @if (receiptsBusy()) {
+          <app-button variant="ghost" (pressed)="cancel()">Stop</app-button>
+        } @else {
+          <app-button variant="ghost" [disabled]="anyBusy()" (pressed)="runReceipts()">
+            {{ receiptsStatus() === 'ready' || receiptsStatus() === 'error' ? 'Run again' : 'Pull the receipts' }}
+          </app-button>
+        }
+      </div>
+    </li>
+
+    <li
+      class="forensics-page__pass"
+      [class.forensics-page__pass--done]="emotionsStatus() === 'ready'"
+      [class.forensics-page__pass--busy]="emotionsBusy()"
+    >
+      <div class="forensics-page__pass-head">
+        <h2>The Vibe Timeline</h2>
+        <span class="forensics-page__pass-status">
+          @switch (emotionsStatus()) {
+            @case ('ready') { Complete }
+            @case ('downloading') { Downloading }
+            @case ('running') { Reading }
+            @case ('error') { Failed }
+            @case ('cancelled') { Stopped }
+            @default { Optional · 125 MB }
+          }
+        </span>
+      </div>
+      <p class="forensics-page__pass-body">
+        Reads the emotional temperature of the chat month by month — who runs hot, who stays cheerful, and
+        exactly when the group was at its most hostile. Still the heaviest pass — a larger model, and around
+        a minute of work on a long chat.
+      </p>
+
+      @if (emotionsBusy()) {
+        <div class="forensics-page__progress">
+          <div class="forensics-page__progress-track">
+            <div
+              class="forensics-page__progress-bar"
+              [class.forensics-page__progress-bar--indeterminate]="progressPercent() === null"
+              [style.width.%]="progressPercent() ?? 100"
+            ></div>
+          </div>
+          <p class="forensics-page__pass-result" role="status">
+            {{ progress()?.label }}
+            @if (progressPercent() !== null) { {{ progressPercent() }}% }
+          </p>
+        </div>
+      } @else if (emotionsStatus() === 'ready') {
+        <p class="forensics-page__pass-result">
+          Profiled {{ emotionCount() }} participants.
+          @if (peakTension()) { Peak hostility landed in {{ peakTension() }}. }
+        </p>
+      } @else if (emotionsStatus() === 'error') {
+        <p class="forensics-page__pass-error" role="alert">
+          {{ forensicsError()?.message || 'That pass failed.' }} The rest of the report is unaffected.
+        </p>
+      }
+
+      <div class="forensics-page__pass-actions">
+        @if (emotionsBusy()) {
+          <app-button variant="ghost" (pressed)="cancel()">Stop</app-button>
+        } @else {
+          <app-button variant="ghost" [disabled]="anyBusy()" (pressed)="runEmotions()">
+            {{ emotionsStatus() === 'ready' || emotionsStatus() === 'error' ? 'Run again' : 'Take the temperature' }}
+          </app-button>
+        }
+      </div>
+    </li>
+  </ol>
+
+  <section class="forensics-page__models">
+    <h2>Models on this device</h2>
+    <p class="forensics-page__models-note">
+      Downloaded once and cached by the browser, then run entirely offline. Nothing about your chat is sent
+      to fetch them — only the model files themselves come from Hugging Face.
+    </p>
+    <ul class="forensics-page__model-list">
+      @for (model of onDeviceModels(); track model.repo) {
+        <li class="forensics-page__model">
+          <div class="forensics-page__model-head">
+            <span class="forensics-page__model-name">{{ model.label }}</span>
+            <span class="forensics-page__model-size">{{ model.size }}</span>
+            <span class="forensics-page__model-status">{{ model.status }}</span>
+          </div>
+          <p class="forensics-page__model-role">{{ model.role }}</p>
+          <p class="forensics-page__model-meta">
+            <span class="forensics-page__model-pass">{{ model.pass }}</span>
+            <code>{{ model.repo }}</code>
+            @if (model.licence; as licence) {
+              <a
+                class="forensics-page__model-licence"
+                [href]="licence.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                >{{ licence.name }}</a
+              >
+            }
+          </p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <p class="forensics-page__note">
+    All of this runs in your browser. Nothing has been sent anywhere yet — the next screen shows you exactly
+    what will be, and asks before it goes.
+  </p>
+
+  @if (pendingBack()) {
+    <p class="forensics-page__confirm" role="alert">
+      A pass is still running. Going back will stop it and clear what it has found so far.
+      @if (anyDownloading()) {
+        The model download already under way will finish in the background — it can't be
+        interrupted, but it stays cached for next time.
+      }
+    </p>
+  }
+
+  <div class="forensics-page__actions">
+    @if (pendingBack()) {
+      <app-button (pressed)="confirmBack()">Stop and go back</app-button>
+      <app-button variant="ghost" (pressed)="cancelBack()">Keep running</app-button>
+    } @else {
+      <app-button variant="ghost" (pressed)="back()">← Back</app-button>
+      <app-button (pressed)="continue()">Continue</app-button>
+    }
+  </div>
+</section>

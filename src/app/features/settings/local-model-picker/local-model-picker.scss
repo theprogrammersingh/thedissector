@@ -1,0 +1,125 @@
+.local-model-picker {
+  &__list {
+    list-style: none;
+    margin: 0 0 var(--space-sm);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  &__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    min-height: 44px;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--surface-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: left;
+
+    &:hover {
+      border-color: var(--color-accent);
+    }
+  }
+
+  // The one already on disk: picking it costs nothing, so it gets a visible edge over the rows
+  // that would start a multi-gigabyte download.
+  &__option--downloaded {
+    border-color: var(--color-accent);
+    background: var(--surface-secondary);
+  }
+
+  &__option-size {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  // Replaces the size on the downloaded row — the download size is the wrong thing to advertise
+  // for a model that is already here. Reuses the ✓-in-accent treatment of `__ready-mark` rather
+  // than introducing a second colour into a deliberately single-accent palette.
+  &__option-badge {
+    color: var(--text-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__option-caveat {
+    margin: var(--space-xs) 0 0;
+    font-size: 0.8rem;
+    color: var(--color-accent);
+  }
+
+  &__option-why {
+    margin-top: var(--space-xs);
+    color: var(--text-muted);
+
+    summary {
+      cursor: pointer;
+      color: var(--text-accent);
+    }
+  }
+
+  &__hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  &__confirm {
+    margin-bottom: var(--space-sm);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  &__progress-track {
+    height: 0.625rem;
+    background: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: var(--space-xs);
+  }
+
+  &__progress-bar {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  // This one sub-panel is a deliberate, scoped exception to the settings page's otherwise-plain
+  // theme — the user explicitly asked for themed flavor text mirroring analysis-loading-page.
+  &__flavor {
+    font-family: var(--font-display);
+    color: var(--text-accent);
+    font-size: 0.95rem;
+  }
+
+  &__ready {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+  }
+
+  &__ready-mark {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  &__error {
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+  }
+}

@@ -1,0 +1,23 @@
+// The consent + anonymization screen is the one deliberate exception to the case-file theme
+// (design-guidelines §4/§5): plain UI chrome, no redaction motifs, no typewriter typography,
+// so it reads as a real decision rather than part of the bit. Wrap that screen's root element
+// in .plain-chrome — it overrides the shared design tokens locally, so any shared component
+// (buttons, inputs) rendered inside it automatically de-themes instead of needing its own styles.
+.plain-chrome {
+  --surface-primary: #ffffff;
+  --surface-secondary: #f5f5f5;
+  --surface-inverse: #1f1f1f;
+  --text-primary: #1f1f1f;
+  --text-inverse: #ffffff;
+  --text-muted: #5f5f5f;
+  --text-accent: #0a5cd8;
+  --text-accent-on-dark: #5b9dff;
+  --surface-accent: #0a5cd8;
+  --text-on-accent: #ffffff;
+  --border-subtle: #d9d9d9;
+  --font-display: var(--font-body);
+
+  font-family: var(--font-body);
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}

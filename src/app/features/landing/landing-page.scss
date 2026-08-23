@@ -1,0 +1,88 @@
+.landing-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+
+  &__hero {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+
+    app-stamp-badge {
+      margin-bottom: var(--space-md);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-sm);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: center;
+  }
+
+  &__actions-note {
+    max-width: 30rem;
+    margin: var(--space-sm) auto 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  &__tagline {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 34rem;
+    margin: 0 auto var(--space-lg);
+  }
+
+  &__section {
+    margin-bottom: var(--space-xl);
+
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+
+  &__steps {
+    padding-left: 1.3em;
+
+    li {
+      margin-bottom: var(--space-sm);
+      line-height: 1.5;
+    }
+  }
+
+  &__features {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--border-subtle);
+      line-height: 1.5;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__cta {
+    text-align: center;
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-subtle);
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-page {
+    padding: var(--space-lg) var(--space-md);
+
+    &__hero h1 {
+      font-size: 2rem;
+    }
+  }
+}

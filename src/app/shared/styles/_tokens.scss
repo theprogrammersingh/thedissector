@@ -1,0 +1,48 @@
+// Design tokens for "The Dissector" — case-file theme (charcoal + cream + single crimson accent).
+// Accent values are chosen to clear WCAG AA (4.5:1) contrast on the background they're meant
+// for — --color-accent for text/fills on the cream surface, --color-accent-on-dark for text on
+// the charcoal surface (same hue, lifted lightness; verified numerically, not eyeballed).
+
+:root {
+  // Base palette
+  --color-charcoal: #1a1816;
+  --color-charcoal-muted: #2a2724;
+  --color-cream: #f3ede1;
+  --color-cream-muted: #e8e0d0;
+
+  // Single accent, two lightness values for the two surfaces it appears on
+  --color-accent: #b3122d; // crimson — text/borders/fills on the cream surface (5.9:1 on cream)
+  --color-accent-on-dark: #e8495f; // lifted crimson — text/icons on the charcoal surface (4.7:1 on charcoal)
+
+  // Semantic surface/text tokens
+  --surface-primary: var(--color-cream);
+  --surface-secondary: var(--color-cream-muted);
+  --surface-inverse: var(--color-charcoal);
+  --surface-inverse-secondary: var(--color-charcoal-muted);
+
+  --text-primary: var(--color-charcoal);
+  --text-inverse: var(--color-cream);
+  --text-muted: #5c564c;
+  --text-accent: var(--color-accent);
+  --text-accent-on-dark: var(--color-accent-on-dark);
+  // Semantic (not raw) so the plain-chrome consent screen can re-skin the primary
+  // call-to-action without every themed component hardcoding the brand color.
+  --surface-accent: var(--color-accent);
+  --text-on-accent: var(--color-cream);
+
+  --border-subtle: #d8cfba;
+  --border-inverse-subtle: #3d3934;
+
+  // Typography
+  --font-display: 'Special Elite', 'Courier New', Courier, monospace;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  // Spacing / shape
+  --space-xs: 0.375rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3.25rem;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+}

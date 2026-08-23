@@ -1,0 +1,41 @@
+<section class="analysis-loading">
+  @switch (status()) {
+    @case ('running') {
+      <div class="analysis-loading__stage" [class.analysis-loading__stage--sweeping]="!reducedMotion()">
+        <div class="analysis-loading__redaction-bar"></div>
+      </div>
+      <p class="analysis-loading__status" aria-live="polite">{{ statusLines()[currentStatusIndex()] }}</p>
+      @if (recoveredFromDeviceLoss()) {
+        <p class="analysis-loading__fallback" role="status">
+          The GPU ran out of memory and dropped the model, so it's been reloaded and this pass restarted.
+          If it happens again, a smaller on-device model is the fix.
+        </p>
+      }
+      <app-button variant="secondary" (pressed)="cancel()">Cancel</app-button>
+    }
+    @case ('error') {
+      <h1>Something went sideways</h1>
+      <p class="analysis-loading__error" role="alert">{{ error()?.message }}</p>
+      @if (errorDetail(); as detail) {
+        <details class="analysis-loading__detail">
+          <summary>What the model actually reported</summary>
+          <pre>{{ detail }}</pre>
+        </details>
+      }
+      <div class="analysis-loading__actions">
+        @if (error()?.kind === 'gemini-input-token-quota') {
+          <app-button (pressed)="reduceAndRetry()">Reduce chat size &amp; retry</app-button>
+        }
+        <app-button (pressed)="retry()">Try again</app-button>
+        <app-button variant="secondary" (pressed)="backToSettings()">Switch provider</app-button>
+      </div>
+    }
+    @case ('cancelled') {
+      <h1>Cancelled</h1>
+      <app-button (pressed)="backToSettings()">Back to settings</app-button>
+    }
+    @default {
+      <p>Preparing…</p>
+    }
+  }
+</section>

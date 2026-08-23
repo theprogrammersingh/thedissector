@@ -1,0 +1,75 @@
+.leverage-panel {
+  &__caption {
+    margin: 0 0 var(--space-md);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  // The table is the widest thing in the report; it scrolls inside its own box so the
+  // page body never scrolls horizontally on a phone.
+  &__table-scroll {
+    margin-top: var(--space-lg);
+    overflow-x: auto;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__table-caption {
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding-bottom: var(--space-sm);
+  }
+
+  &__table th,
+  &__table td {
+    padding: var(--space-xs) var(--space-sm);
+    text-align: right;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  &__table thead th {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+
+  &__table tbody th {
+    text-align: left;
+    font-weight: 600;
+  }
+
+  &__ghosts {
+    margin: var(--space-md) 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  &__table abbr {
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+}
+
+@media print {
+  .leverage-panel__table-scroll {
+    overflow-x: visible;
+  }
+
+  .leverage-panel__table {
+    break-inside: avoid;
+    font-size: 0.75rem;
+  }
+}

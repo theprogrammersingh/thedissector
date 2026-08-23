@@ -1,0 +1,45 @@
+.masked-input {
+  display: block;
+
+  &__label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+  }
+
+  &__row {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  &__field {
+    flex: 1;
+    min-height: 44px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: var(--space-sm);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--surface-primary);
+    color: var(--text-primary);
+
+    &:focus {
+      outline: 2px solid var(--text-accent);
+      outline-offset: 1px;
+    }
+  }
+
+  &__toggle {
+    min-height: 44px;
+    min-width: 44px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    padding: 0 var(--space-sm);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--surface-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+}

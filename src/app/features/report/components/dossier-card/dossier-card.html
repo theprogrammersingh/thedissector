@@ -1,0 +1,57 @@
+<article class="dossier-card">
+  <button class="dossier-card__header" type="button" (click)="toggle()" [attr.aria-expanded]="expanded() || forceExpanded()">
+    <span class="dossier-card__name">{{ dossier().displayName }}</span>
+    <span class="dossier-card__archetype">{{ dossier().archetype }}</span>
+    <!-- Reads the same condition as the body below; using `expanded()` alone showed a collapsed
+         ▸ above fully expanded content on every card in the printed report. -->
+    <span class="dossier-card__chevron">{{ expanded() || forceExpanded() ? '▾' : '▸' }}</span>
+  </button>
+
+  @if (expanded() || forceExpanded()) {
+    <div class="dossier-card__body">
+      <app-verdict-quote [quote]="dossier().verdictQuote"></app-verdict-quote>
+      <p class="dossier-card__summary">{{ dossier().behavioralSummary }}</p>
+
+      <div class="dossier-card__lists">
+        <div>
+          <h3>Strengths</h3>
+          <ul>
+            @for (s of dossier().strengths; track s) {
+              <li>{{ s }}</li>
+            }
+          </ul>
+        </div>
+        <div>
+          <h3>Red flags</h3>
+          <ul>
+            @for (f of dossier().redFlags; track f) {
+              <li>{{ f }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      @if (exhibits().length) {
+        <section class="dossier-card__exhibits">
+          <h3>Exhibits</h3>
+          <p class="dossier-card__exhibits-note">
+            Flagged by an on-device search for behavioural patterns. Candidates, not proof — read them
+            yourself and decide.
+          </p>
+          <ul>
+            @for (exhibit of exhibits(); track exhibit.id) {
+              <li class="dossier-card__exhibit">
+                <div class="dossier-card__exhibit-head">
+                  <app-stamp-badge [text]="exhibit.label"></app-stamp-badge>
+                  <span class="dossier-card__exhibit-category">{{ exhibit.category }}</span>
+                  <time [attr.datetime]="exhibit.timestampMs">{{ exhibit.timestampMs | date: 'mediumDate' }}</time>
+                </div>
+                <blockquote>{{ exhibit.quote }}</blockquote>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+  }
+</article>

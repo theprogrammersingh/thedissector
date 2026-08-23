@@ -1,0 +1,43 @@
+<p class="leverage-panel__caption">
+  Conversational dominance, scored <strong>relative to this group</strong> — someone always ranks highest.
+  Counted directly from every message, no AI involved. It measures language patterns, not intent: someone
+  who mostly writes "I'll book it, I'll bring the cake" scores as self-focused too.
+</p>
+
+<app-meter-list [entries]="meterEntries()" [max]="10"></app-meter-list>
+
+<div class="leverage-panel__table-scroll">
+  <table class="leverage-panel__table">
+    <caption class="leverage-panel__table-caption">Behavioral breakdown per participant</caption>
+    <thead>
+      <tr>
+        <th scope="col">Participant</th>
+        <th scope="col"><abbr title="First-person pronouns as a share of every personal pronoun they use">Me-talk</abbr></th>
+        <th scope="col"><abbr title="How often they answer someone else's personal news by talking about themselves">Hijacks</abbr></th>
+        <th scope="col"><abbr title="Share of their messages that follow up on their own unanswered message">Double-texts</abbr></th>
+        <th scope="col"><abbr title="Share of all conversations in this chat that they started">Starts</abbr></th>
+        <th scope="col"><abbr title="Share of other people's conversation-openers they answered within an hour">Answers</abbr></th>
+        <th scope="col">Median reply</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.participantId) {
+        <tr>
+          <th scope="row">{{ row.displayName }}</th>
+          <td>{{ row.selfAbsorption }}</td>
+          <td>{{ row.hijackRate }}</td>
+          <td>{{ row.doubleTextRate }}</td>
+          <td>{{ row.initiationShare }}</td>
+          <td>{{ row.responseRate }}</td>
+          <td>{{ row.replyLatency }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (ghosts().length) {
+  <p class="leverage-panel__ghosts">
+    <strong>Ghosting tendency:</strong> {{ ghosts().join(', ') }} — everyone else answers reliably.
+  </p>
+}

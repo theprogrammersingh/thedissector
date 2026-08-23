@@ -1,0 +1,6 @@
+@if (updates.updateAvailable()) {
+  <div class="update-banner" role="status">
+    <span>A new version is available.</span>
+    <button type="button" class="update-banner__refresh" (click)="refresh()">Refresh</button>
+  </div>
+}

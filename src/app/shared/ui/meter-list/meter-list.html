@@ -1,0 +1,19 @@
+<ul class="meter-list" [class.meter-list--compact]="compact()">
+  @for (entry of entries(); track entry.key) {
+    <li class="meter-list__row">
+      <span class="meter-list__label">{{ entry.label }}</span>
+      <div
+        class="meter-list__track"
+        role="meter"
+        [attr.aria-label]="entry.label"
+        [attr.aria-valuenow]="entry.value"
+        [attr.aria-valuemin]="0"
+        [attr.aria-valuemax]="scale()"
+        [attr.aria-valuetext]="entry.display"
+      >
+        <div class="meter-list__bar" [style.width.%]="barWidth(entry.value)"></div>
+      </div>
+      <span class="meter-list__value">{{ entry.display }}</span>
+    </li>
+  }
+</ul>

@@ -1,0 +1,88 @@
+.analysis-loading {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  text-align: center;
+
+  &__stage {
+    height: 4px;
+    background: var(--border-subtle);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: var(--space-lg);
+    position: relative;
+  }
+
+  &__redaction-bar {
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    background: var(--color-accent);
+    left: -40%;
+  }
+
+  &__stage--sweeping &__redaction-bar {
+    animation: dissector-sweep 1.6s ease-in-out infinite;
+  }
+
+  &__status {
+    font-family: var(--font-display);
+    min-height: 1.5em;
+    margin-bottom: var(--space-lg);
+  }
+
+  &__fallback {
+    max-width: 34rem;
+    margin: var(--space-sm) auto 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  &__detail {
+    max-width: 40rem;
+    margin: var(--space-sm) auto 0;
+    text-align: left;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+
+    summary {
+      cursor: pointer;
+    }
+
+    pre {
+      margin: var(--space-xs) 0 0;
+      padding: var(--space-sm);
+      background: var(--surface-secondary);
+      border-radius: var(--radius-sm);
+      // Runtime messages are long single lines; wrap rather than widening the page.
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 0.72rem;
+    }
+  }
+
+  &__error {
+    color: var(--color-accent);
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+  }
+}
+
+@keyframes dissector-sweep {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .analysis-loading {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

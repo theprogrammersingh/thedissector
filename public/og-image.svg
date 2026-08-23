@@ -1,0 +1,25 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="1200" height="630" fill="#2C2C2A"/>
+
+  <text x="1120" y="60" text-anchor="end" font-family="'Courier New', monospace" font-size="14" letter-spacing="1" fill="#5F5E5A">FOR FUN — NOT A DIAGNOSIS</text>
+
+  <g transform="translate(90,205) scale(0.357)">
+    <g clip-path="url(#ogClip)">
+      <path d="M480.48 0H135.52C60.6744 0 0 60.6744 0 135.52V480.48C0 555.326 60.6744 616 135.52 616H480.48C555.326 616 616 555.326 616 480.48V135.52C616 60.6744 555.326 0 480.48 0Z" fill="#2C2C2A"/>
+      <path d="M449.68 129.359H166.32C118.691 129.359 80.0801 167.97 80.0801 215.599V320.319C80.0801 367.948 118.691 406.559 166.32 406.559H449.68C497.309 406.559 535.92 367.948 535.92 320.319V215.599C535.92 167.97 497.309 129.359 449.68 129.359Z" fill="#F1EFE8"/>
+      <path d="M166.321 369.602L92.401 505.122C88.2943 513.335 90.3477 515.388 98.561 511.282L246.401 394.242L166.321 369.602Z" fill="#F1EFE8"/>
+      <path d="M403.48 172.48H175.56C163.653 172.48 154 182.133 154 194.04C154 205.948 163.653 215.6 175.56 215.6H403.48C415.387 215.6 425.04 205.948 425.04 194.04C425.04 182.133 415.387 172.48 403.48 172.48Z" fill="#A32D2D"/>
+      <path d="M317.24 246.398H175.56C163.653 246.398 154 256.051 154 267.958C154 279.866 163.653 289.518 175.56 289.518H317.24C329.147 289.518 338.8 279.866 338.8 267.958C338.8 256.051 329.147 246.398 317.24 246.398Z" fill="#A32D2D"/>
+      <path d="M366.52 320.32H175.56C163.653 320.32 154 329.973 154 341.88C154 353.788 163.653 363.44 175.56 363.44H366.52C378.427 363.44 388.08 353.788 388.08 341.88C388.08 329.973 378.427 320.32 366.52 320.32Z" fill="#A32D2D"/>
+    </g>
+    <defs>
+      <clipPath id="ogClip">
+        <rect width="616" height="616" fill="white"/>
+      </clipPath>
+    </defs>
+  </g>
+
+  <text x="360" y="290" font-family="'Courier New', monospace" font-weight="700" font-size="66" letter-spacing="2" fill="#F1EFE8">THE DISSECTOR</text>
+  <rect x="362" y="308" width="160" height="7" rx="3.5" fill="#A32D2D"/>
+  <text x="360" y="352" font-family="Georgia, serif" font-size="24" fill="#B4B2A9">AI psychological audits of your group chats</text>
+</svg>

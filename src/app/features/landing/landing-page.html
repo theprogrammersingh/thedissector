@@ -1,0 +1,48 @@
+<section class="landing-page">
+  <div class="landing-page__hero">
+    <app-stamp-badge text="For fun — not a diagnosis" />
+    <h1>The Dissector</h1>
+    <p class="landing-page__tagline">
+      Turn a WhatsApp group chat into an AI-generated forensic-psychology report — archetypes, red flags,
+      superlatives, and a verdict for every person in the chat.
+    </p>
+    <div class="landing-page__actions">
+      <app-button (pressed)="start()">Dissect your chat</app-button>
+      <app-button variant="secondary" (pressed)="startLocal()">Run entirely on this device</app-button>
+    </div>
+    <p class="landing-page__actions-note">
+      On-device needs no API key and sends nothing anywhere — at the cost of a one-time model
+      download (from ~650&nbsp;MB) and a browser with WebGPU.
+    </p>
+  </div>
+
+  <div class="landing-page__section">
+    <h2>How it works</h2>
+    <ol class="landing-page__steps">
+      <li><strong>Upload</strong> — paste or drop your exported WhatsApp <code>.txt</code> file. It's parsed in your browser; nothing is uploaded.</li>
+      <li><strong>Review participants</strong> — a last, calm look at who's about to be profiled. Rename or remove anyone before continuing.</li>
+      <li><strong>Pick a model</strong> — bring your own API key for Gemini, GPT, Claude, Grok or DeepSeek, or run a model on your own machine. No account, no server either way.</li>
+      <li><strong>Dust for prints</strong> — your browser measures the chat first: who dominates, who deflects, who never replies, and the emotional temperature over time.</li>
+      <li><strong>Consent</strong> — with a cloud model, nothing is sent until you explicitly say so, with an option to anonymize names first. On-device, there's nothing to consent to sending.</li>
+      <li><strong>Get your report</strong> — a Group Dynamic Audit, individual dossiers, and superlatives, ready to print or save as a PDF.</li>
+    </ol>
+  </div>
+
+  <div class="landing-page__section">
+    <h2>What you get</h2>
+    <ul class="landing-page__features">
+      <li><strong>Client-side parsing.</strong> Your chat is parsed entirely in your browser — with a cloud model nothing leaves your device until you consent, and on-device nothing leaves it at all.</li>
+      <li><strong>Your model, your key — or no key.</strong> Gemini, GPT, Claude, Grok and DeepSeek via your own API key, or a model running offline on your own hardware.</li>
+      <li><strong>Evidence, not vibes.</strong> Behavioural metrics and flagged quotes are computed on your device first, so the report argues from something real.</li>
+      <li><strong>A structured dossier.</strong> Group Dynamic Audit, individual archetypes, strengths, red flags, and superlatives.</li>
+      <li><strong>Consent and anonymization built in.</strong> Nothing is sent anywhere until you approve it, with names optional.</li>
+    </ul>
+  </div>
+
+  <div class="landing-page__cta">
+    <div class="landing-page__actions">
+      <app-button (pressed)="start()">Dissect your chat</app-button>
+      <app-button variant="secondary" (pressed)="startLocal()">Run entirely on this device</app-button>
+    </div>
+  </div>
+</section>
