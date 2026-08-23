@@ -1,0 +1,32 @@
+name: CI
+
+# Pushes to main are covered by deploy.yml, which runs the same test and build before
+# publishing — running both would duplicate every check on the default branch.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Vitest runs under jsdom; the on-device model and forensics workers are never
+      # instantiated by the suite, so no GPU or network is required here.
+      - run: npm test
+
+      - run: npm run build
+
+      # The initial-bundle budget in angular.json fails the build on its own, but printing the
+      # output makes a regression visible in the log rather than only in a red X.
+      - name: Report bundle sizes
+        run: du -sh dist/the-dissector/browser && ls -lhS dist/the-dissector/browser/*.js | head -n 10

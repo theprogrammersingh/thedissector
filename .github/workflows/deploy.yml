@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Required by actions/deploy-pages: `pages` to publish, `id-token` for its OIDC exchange.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; a queued one supersedes the one waiting behind it, but an
+# in-flight deploy is allowed to finish rather than leaving the site half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Deployment is gated on the suite: a red build should never reach the live site.
+      - run: npm test
+
+      - run: npm run build
+
+      # GitHub Pages is a static host with no rewrite rules, so a deep link like /about would
+      # 404 on first load. Serving index.html as the 404 body hands the request to the Angular
+      # router instead. `public/CNAME` is copied into the output by the build and is what keeps
+      # the custom domain bound on each deploy.
+      - name: Add SPA fallback
+        run: cp dist/the-dissector/browser/index.html dist/the-dissector/browser/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/the-dissector/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
