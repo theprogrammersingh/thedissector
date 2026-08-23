@@ -18,7 +18,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      # `npm install` rather than `npm ci`: the lockfile is generated on macOS and cannot
+      # record the Linux-only optional transitive dependencies (@emnapi/*, pulled in via
+      # sharp) that a runner resolves, so `npm ci` fails the sync check here. Versions are
+      # still pinned by the committed lockfile.
+      - run: npm install --no-audit --no-fund
 
       # Vitest runs under jsdom; the on-device model and forensics workers are never
       # instantiated by the suite, so no GPU or network is required here.

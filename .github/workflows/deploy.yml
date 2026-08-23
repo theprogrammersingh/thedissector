@@ -28,7 +28,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      # `npm install` rather than `npm ci`: the lockfile is generated on macOS and cannot
+      # record the Linux-only optional transitive dependencies (@emnapi/*, pulled in via
+      # sharp) that a runner resolves, so `npm ci` fails the sync check here. Versions are
+      # still pinned by the committed lockfile.
+      - run: npm install --no-audit --no-fund
 
       # Deployment is gated on the suite: a red build should never reach the live site.
       - run: npm test
