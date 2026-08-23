@@ -91,7 +91,9 @@ export const LOCAL_MODELS: LocalModelDescriptor[] = [
   },
   {
     key: 'qwen2.5-0.5b',
-    label: 'Qwen2.5 0.5B',
+    // "Instruct" stays in the label: unlike Qwen3, Qwen2.5 ships base and instruction-tuned as
+    // separate repos, so dropping it made the row look like the base model.
+    label: 'Qwen2.5 0.5B Instruct',
     hfRepoId: 'onnx-community/Qwen2.5-0.5B-Instruct',
     dtype: 'q4',
     modality: 'text',

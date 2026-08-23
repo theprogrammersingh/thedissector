@@ -41,6 +41,13 @@
         <p class="local-model-picker__confirm">
           This will download ≈{{ formatBytes(m.estimatedDownloadBytes) }} and use that much space on this device. Continue?
         </p>
+        <!-- The exact repo, because the label alone is ambiguous: several of these have base and
+             instruction-tuned variants under near-identical names, and only this line says which
+             one is actually about to be fetched. -->
+        <p class="local-model-picker__repo">
+          <code>{{ m.hfRepoId }}</code>
+          <span class="local-model-picker__repo-dtype">{{ m.dtype }}</span>
+        </p>
         @if (m.caveat) {
           <!-- Full detail inline here, unlike the list: this is the moment the download is
                actually being committed to. -->
